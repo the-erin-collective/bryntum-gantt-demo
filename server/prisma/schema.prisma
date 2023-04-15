@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id                  String                    @id
+  parentId            String?
+  name                String?
+  startDate           DateTime?
+  endDate             DateTime?
+  effort              Float?
+  effortUnit          String                    @default("hour")
+  duration            Float?
+  durationUnit        String                    @default("day")
+  percentDone         Float                     @default(0)
+  schedulingMode      String?
+  note                String
+  constraintType      String?
+  constraintDate      DateTime?
+  manuallyScheduled   Int                       @default(1)
+  effortDriven        Int                       @default(0)
+  inactive            Int                       @default(0)
+  cls                 String?
+  iconCls             String?
+  color               String?
+  parentIndex         Int                       @default(0)
+  expanded            Int                       @default(0)
+  calendar            Int?
+  deadline            DateTime?
+  direction           String?
+}
+
+model Dependency{
+  id                  String                  @id
+  from                String?        
+  to                  String? 
+  type                Int                     @default(2)
+  cls                 String?
+  lag                 Float                   @default(0)
+  lagUnit             String                  @default("day")
+  active              Boolean
+  fromSide            String?
+  toSide              String?
+}
+
+model Resource{
+  id                  String                  @id
+  name                String?
+  city                String?
+  calendar            String?
+  image               String?
+}
+
+model ResourceAssignment{
+  id                  String                  @id
+  resource            String                  
+  event               String                  
+}
